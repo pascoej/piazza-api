@@ -52,6 +52,15 @@ Content.prototype.getAuthor = function() {
 	return usersPromise;
 }
 
+Content.prototype.vote = function(votes) {
+	var votePromise = callPetty("content.vote", {
+		"votes": votes
+	}).then(function(resp) {
+		return resp;
+	});
+	return votePromise;
+}
+
 Content.prototype.getEditors = function() {
 	if (this.editorIds.length === 0) {
 		return [];

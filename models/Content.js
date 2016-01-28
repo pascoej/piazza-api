@@ -52,9 +52,10 @@ Content.prototype.getAuthor = function() {
 	return usersPromise;
 }
 
-Content.prototype.vote = function(votes) {
+Content.prototype.vote = function(votess) {
 	var votePromise = callPetty("content.vote", {
-		"votes": votes
+		cid: this.id,
+		"votes": ["0"]
 	}).then(function(resp) {
 		return resp;
 	});

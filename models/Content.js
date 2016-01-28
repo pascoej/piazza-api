@@ -7,17 +7,17 @@ var Content = function(content, classId, parent) {
 	this.parent = parent;
 	this.classId = classId;
 	this.type = content.type;
-
-	this.title = content.history[0].subject;
-	this.content = content.history[0].content;
-
+	if (content.history) {
+		this.title = content.history[0].subject;
+		this.content = content.history[0].content;
+	}
 	this.created = content.created;
 	this.views = content.unique_views || parent.views;
 	this.folders = content.folders || parent.folders;
 	this.tags = content.tags || parent.tags;
 	this.history = content.history;
 	this.changeLog = content.change_log;
-
+	this.config = content.config;
 	this.init(content, classId);
 }
 
@@ -51,11 +51,13 @@ Content.prototype.getAuthor = function() {
 	});
 	return usersPromise;
 }
-
+Content.prototype.isPollOpen = function() {
+	return config.always_open || always_open > 0;
+}
 Content.prototype.vote = function(votess) {
 	var votePromise = callPetty("content.vote", {
 		cid: this.id,
-		"votes": ["0"]
+		votes: ["0"]
 	}).then(function(resp) {
 		return resp;
 	});
